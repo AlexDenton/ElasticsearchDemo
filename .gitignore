@@ -45,3 +45,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.suo
+*.dg
+
+src/MovieDataLoader/project.lock.json
+obj
+bin
