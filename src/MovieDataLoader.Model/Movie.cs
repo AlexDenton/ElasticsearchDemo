@@ -1,4 +1,4 @@
-﻿namespace MovieDataLoader
+﻿namespace MovieDataLoader.Model
 {
     public class Movie
     {
