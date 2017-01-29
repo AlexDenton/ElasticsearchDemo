@@ -1,16 +1,30 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MovieDataLoader.Elasticsearch;
 
 namespace MovieDataLoader
 {
     public class Program
     {
-        public static async void Main(string[] args)
+        private static IConfiguration Configuration { get; set; }
+
+        public static void Main(string[] args)
+        {
+            var conifgurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            Configuration = conifgurationBuilder.Build();
+            MainAsync().Wait();
+        }
+
+        private static async Task MainAsync()
         {
             var movieData = MovieDataReader.ReadMovieData();
-            const string indexName = "movies";
-            var elasticsearchMovieIndexManager = new ElasticsearchMovieIndexManager(indexName);
-            elasticsearchMovieIndexManager.CreateMovieIndex(indexName);
+            var indexName = Configuration["ElasticsearchSettings:ElasticsearchIndexName"];
+            var elasticsearchServiceUri = Configuration["ElasticsearchSettings:ElasticsearchServiceUri"];
+            var elasticsearchMovieIndexManager = new ElasticsearchMovieIndexManager(elasticsearchServiceUri, indexName);
+            //elasticsearchMovieIndexManager.CreateMovieIndex(indexName);
             await elasticsearchMovieIndexManager.LoadMovieData(movieData.Values);
         }
     }

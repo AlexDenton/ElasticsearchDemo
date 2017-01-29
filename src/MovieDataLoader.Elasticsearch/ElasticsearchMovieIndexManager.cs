@@ -10,10 +10,10 @@ namespace MovieDataLoader.Elasticsearch
     {
         private readonly ElasticClient _ElasticClient;
 
-        public ElasticsearchMovieIndexManager(string indexName)
+        public ElasticsearchMovieIndexManager(string elasticsearchServiceUri, string indexName)
         {
             var settings = new ConnectionSettings(
-                new Uri("http://localhost:9200"));
+                new Uri(elasticsearchServiceUri));
 
             settings.DefaultIndex(indexName);
 
