@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Nest;
 using MovieDataLoader.Model;
 
@@ -16,6 +18,16 @@ namespace MovieDataLoader.Elasticsearch
             settings.DefaultIndex(indexName);
 
             _ElasticClient = new ElasticClient(settings);
+        }
+
+        public async Task LoadMovieData(IEnumerable<Movie> movies)
+        {
+            var bulkResponse = await _ElasticClient.IndexManyAsync(movies);
+
+            if (!bulkResponse.IsValid)
+            {
+                throw bulkResponse.OriginalException;
+            }
         }
 
         public void CreateMovieIndex(string indexName)
