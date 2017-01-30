@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using MovieSearchApi.Application;
 using MovieSearchApi.Application.Dto;
 
@@ -10,8 +11,21 @@ namespace MovieSearchApi.Domain
 
         public async Task<SearchResponseDto> GetSearchResults(SearchRequestDto searchRequestDto)
         {
-            var searchResponse = await _SearchRepository.GetSearchResults(new SearchRequest());
-            return new SearchResponseDto();
+            var searchResponse = await _SearchRepository.GetSearchResults(
+                new SearchRequest
+                {
+                    Query = searchRequestDto.Query
+                });
+
+            return new SearchResponseDto
+            {
+                Results = searchResponse.Results.Select(r => 
+                    new MovieSearchResultDto
+                    {
+                        Id = r.Id,
+                        Name = r.Name
+                    })
+            };
         }
     }
 }

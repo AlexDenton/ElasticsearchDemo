@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MovieSearchApi.Application;
+using MovieSearchApi.Domain;
+using SearchMovieApi.Infrastructure;
 
 namespace MovieSearchApi
 {
@@ -28,8 +30,8 @@ namespace MovieSearchApi
 
             services.AddMvc();
 
-            //services.AddSingleton<IQuestionManager, QuestionManager>();
-            //services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<ISearchManager, SearchManager>();
+            services.AddSingleton<ISearchRepository, SearchRepository>();
 
         }
 
