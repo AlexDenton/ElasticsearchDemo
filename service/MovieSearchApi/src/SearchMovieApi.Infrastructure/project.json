@@ -3,6 +3,7 @@
 
   "dependencies": {
     "MovieSearchApi.Domain": "1.0.0-*",
+    "NEST": "5.0.1",
     "NETStandard.Library": "1.6.0"
   },
 

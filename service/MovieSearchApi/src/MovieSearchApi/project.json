@@ -15,7 +15,8 @@
     "Microsoft.Extensions.DependencyInjection": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "MovieSearchApi.Domain": "1.0.0-*",
-    "SearchMovieApi.Infrastructure": "1.0.0-*"
+    "SearchMovieApi.Infrastructure": "1.0.0-*",
+    "NEST": "5.0.1"
   },
 
   "tools": {

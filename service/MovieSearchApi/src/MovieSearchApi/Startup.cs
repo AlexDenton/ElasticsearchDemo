@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Elasticsearch.Net;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MovieSearchApi.Application;
 using MovieSearchApi.Domain;
+using Nest;
 using SearchMovieApi.Infrastructure;
 
 namespace MovieSearchApi
@@ -32,6 +35,14 @@ namespace MovieSearchApi
 
             services.AddSingleton<ISearchManager, SearchManager>();
             services.AddSingleton<ISearchRepository, SearchRepository>();
+            services.AddSingleton(isp =>
+            {
+                var uri = new Uri("http://localhost:9201");
+                var connectionPool = new SingleNodeConnectionPool(uri);
+                var connectionSettings = new ConnectionSettings(connectionPool);
+                connectionSettings.DefaultIndex("test");
+                return new ElasticClient(connectionSettings);
+            });
 
         }
 
