@@ -4,6 +4,6 @@ namespace MovieSearchApi.Domain
 {
     public class SearchResponse
     {
-        public IEnumerable<MovieSearchResult> Results { get; set; }
+        public IEnumerable<Movie> Results { get; set; }
     }
 }

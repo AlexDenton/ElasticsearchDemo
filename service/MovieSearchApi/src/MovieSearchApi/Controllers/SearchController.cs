@@ -16,7 +16,7 @@ namespace MovieSearchApi.Controllers
         }
 
         [HttpPost]
-        public async Task<SearchResponseDto> PostSearchRequest(SearchRequestDto searchRequestDto)
+        public async Task<SearchResponseDto> PostSearchRequest([FromBody]SearchRequestDto searchRequestDto)
         {
             return await _SearchManager.GetSearchResults(searchRequestDto);
         }

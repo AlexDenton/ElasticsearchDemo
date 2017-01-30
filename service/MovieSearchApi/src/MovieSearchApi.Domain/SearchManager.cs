@@ -9,6 +9,11 @@ namespace MovieSearchApi.Domain
     {
         private readonly ISearchRepository _SearchRepository;
 
+        public SearchManager(ISearchRepository searchRepository)
+        {
+            _SearchRepository = searchRepository;
+        }
+
         public async Task<SearchResponseDto> GetSearchResults(SearchRequestDto searchRequestDto)
         {
             var searchResponse = await _SearchRepository.GetSearchResults(

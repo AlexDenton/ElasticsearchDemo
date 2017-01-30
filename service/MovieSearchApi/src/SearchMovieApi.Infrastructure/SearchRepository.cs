@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Elasticsearch.Net;
 using MovieSearchApi.Domain;
 using Nest;
 using SearchRequest = MovieSearchApi.Domain.SearchRequest;
@@ -8,14 +10,29 @@ namespace SearchMovieApi.Infrastructure
     public class SearchRepository : ISearchRepository
     {
         private readonly ElasticClient _ElasticClient;
+
         public SearchRepository(ElasticClient elasticClient)
         {
             _ElasticClient = elasticClient;
         }
 
-        public Task<SearchResponse> GetSearchResults(SearchRequest searchRequest)
+        public async Task<SearchResponse> GetSearchResults(SearchRequest searchRequest)
         {
-            throw new System.NotImplementedException();
+            var searchDescriptor = new SearchDescriptor<Movie>()
+                .SearchType(SearchType.QueryThenFetch)
+                .Query(q => q.MatchPhrase(mpqd => mpqd
+                    .Field(mqd => mqd.Name.Suffix("standard"))
+                    .Slop(50)
+                    .Query(searchRequest.Query)
+                ));
+
+            var elasticsearchResponse = await _ElasticClient.SearchAsync<Movie>(searchDescriptor);
+            var searchResponse = new SearchResponse
+            {
+                Results = elasticsearchResponse.Hits.Select(h => h.Source)
+            };
+
+            return searchResponse;
         }
     }
 }
