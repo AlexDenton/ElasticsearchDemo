@@ -31,15 +31,17 @@ class SearchResults extends Component {
   render () {
     const searchResults = [
       {
+        "id": "1",
         "name": "Einstein: His Life and Universe"
       },
       {
+        "id": "2",
         "name": "Head First Design Patterns"
       }
     ];
 
     const searchResultItems = searchResults.map((searchResult) => 
-      <div className="search-result">
+      <div key={searchResult.id} className="search-result">
         {searchResult.name}
 			</div>
     )
