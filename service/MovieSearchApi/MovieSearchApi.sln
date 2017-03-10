@@ -1,24 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C8141718-8ABB-4EFB-869B-CFD52A57A9C8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D464538A-0A69-4F18-B842-F3A520F3E18A}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MovieSearchApi", "src\MovieSearchApi\MovieSearchApi.xproj", "{56AAFC68-86E4-4A7D-8981-111B93D3A5D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSearchApi", "src\MovieSearchApi\MovieSearchApi.csproj", "{56AAFC68-86E4-4A7D-8981-111B93D3A5D0}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MovieSearchApi.Application", "src\MovieSearchApi.Application\MovieSearchApi.Application.xproj", "{7A05613A-6932-4467-8443-9D0D8011D5D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSearchApi.Application", "src\MovieSearchApi.Application\MovieSearchApi.Application.csproj", "{7A05613A-6932-4467-8443-9D0D8011D5D9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MovieSearchApi.Domain", "src\MovieSearchApi.Domain\MovieSearchApi.Domain.xproj", "{C31CAB51-8B85-48F5-B2C0-9A6B8BB0E060}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSearchApi.Domain", "src\MovieSearchApi.Domain\MovieSearchApi.Domain.csproj", "{C31CAB51-8B85-48F5-B2C0-9A6B8BB0E060}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MovieSearchApi.Application.Dto", "src\MovieSearchApi.Application.Dto\MovieSearchApi.Application.Dto.xproj", "{8CAA5CE5-2C1F-4774-81BF-BEC586B9D178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSearchApi.Application.Dto", "src\MovieSearchApi.Application.Dto\MovieSearchApi.Application.Dto.csproj", "{8CAA5CE5-2C1F-4774-81BF-BEC586B9D178}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SearchMovieApi.Infrastructure", "src\SearchMovieApi.Infrastructure\SearchMovieApi.Infrastructure.xproj", "{275725D5-7AE8-4CEF-BDC4-B241F2DA3E82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchMovieApi.Infrastructure", "src\SearchMovieApi.Infrastructure\SearchMovieApi.Infrastructure.csproj", "{275725D5-7AE8-4CEF-BDC4-B241F2DA3E82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
