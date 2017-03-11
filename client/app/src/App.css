@@ -14,10 +14,21 @@ body {
 }
 
 .left {
-	width: 35%;
+	width: 30%;
 	display: inline-block;
 	float: left;
-	text-align: center;
+	text-align: left;
+  padding-left: 5%;
+}
+
+.search-container > * {
+  display: block;
+  margin-bottom: 2%;
+}
+
+.search-settings-container > *
+{
+  display: block;
 }
 
 .right {

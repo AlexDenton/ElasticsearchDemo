@@ -39,6 +39,13 @@ class SearchInput extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      searchSettings: {
+        standardAnalyzer: true,
+        snowballAnalayzer: false,
+        edgeNGramAnalyzer: false
+      }
+    }
   }
 
   handleChange(event) {
@@ -72,8 +79,33 @@ class SearchInput extends Component {
 
   render () {
     return (
-      <input className="search-input" placeholder="Search" type="text" onChange={this.handleChange} />
+      <div className="search-container">
+        <input className="search-input" placeholder="Search" type="text" onChange={this.handleChange} />
+        <SearchSettings searchSettings={this.state.searchSettings} />
+      </div>
     );
+  }
+}
+
+class SearchSettings extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    this.props.searchSettings[event.target.name] = event.target.checked;
+  }
+
+  render() {
+    return (
+      <div className="search-settings-container">
+        <label><input type="checkbox" name="standardAnalyzer" checked={this.props.searchSettings.standardAnalyzer} onChange={this.handleInputChange} /> Standard</label>
+        <label><input type="checkbox" name="snowballAnalyzer" checked={this.props.searchSettings.snowballAnalayzer} onChange={this.handleInputChange} /> Snowball</label>
+        <label><input type="checkbox" name="edgeNGramAnalyzer" checked={this.props.searchSettings.edgeNGramAnalyzer} onChange={this.handleInputChange} /> Edge NGram</label>
+      </div>
+    )
   }
 }
 
