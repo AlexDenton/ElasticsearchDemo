@@ -16,7 +16,8 @@ namespace MovieSearchApi.Domain
 
         private static IEnumerable<Expression<Func<Movie, object>>> _IndexFields => new List<Expression<Func<Movie, object>>>
         {
-            movie => movie.Name
+            movie => movie.Name,
+            movie => movie.PlotSummary
         };
 
         public static QueryContainerDescriptor<Movie> CreateQueryString(SearchRequest searchRequest)

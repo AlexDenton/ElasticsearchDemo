@@ -56,8 +56,8 @@ body {
 }
 
 .search-result {
-	font-size: 30px;
 	min-height: 100px;
+  max-height: 150px;
 	padding: 25px;
 	border-style: solid;
 	border-color: #CCCCCC;
@@ -67,6 +67,15 @@ body {
 	border-width: 2px;
 	margin-bottom: 10px;
 	width: 60%;
-	font-weight: bold;
-	/*box-shadow: 1px 1px 1px 1px;*/
+  overflow: overlay;
+}
+
+.search-result-name {
+  	font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.search-result-plot-summary {
+  font-size: 12px;
 }

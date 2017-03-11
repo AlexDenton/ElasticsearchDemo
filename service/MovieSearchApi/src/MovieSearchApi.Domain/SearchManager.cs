@@ -34,7 +34,8 @@ namespace MovieSearchApi.Domain
                     new MovieSearchResultDto
                     {
                         Id = r.Id,
-                        Name = r.Name
+                        Name = r.Name,
+                        PlotSummary = r.PlotSummary
                     })
             };
         }

@@ -38,7 +38,9 @@ class App extends Component {
 class SearchInput extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
+    this.handleSearchSettingsChange = this.handleSearchSettingsChange.bind(this);
+    
     this.state = {
       searchRequest: {
         query: "",
@@ -51,7 +53,7 @@ class SearchInput extends Component {
     }
   }
 
-  handleChange(event) {
+  handleSearchInputChange(event) {
 
     this.state.searchRequest.query = event.target.value;
 
@@ -79,11 +81,19 @@ class SearchInput extends Component {
       }.bind(this));
   }
 
+  handleSearchSettingsChange(event) {
+    var newSearchRequest = this.state.searchRequest;
+    newSearchRequest.searchSettings[event.target.name] = event.target.checked;
+    this.setState({
+      searchRequest: newSearchRequest
+    })
+  }
+
   render () {
     return (
       <div className="search-container">
-        <input className="search-input" placeholder="Search" type="text" onChange={this.handleChange} />
-        <SearchSettings searchSettings={this.state.searchRequest.searchSettings} />
+        <input className="search-input" placeholder="Search" type="text" onChange={this.handleSearchInputChange} />
+        <SearchSettings searchSettings={this.state.searchRequest.searchSettings} onSearchSettingsChange={this.handleSearchSettingsChange}/>
       </div>
     );
   }
@@ -97,7 +107,7 @@ class SearchSettings extends Component {
   }
 
   handleInputChange(event) {
-    this.props.searchSettings[event.target.name] = event.target.checked;
+    this.props.onSearchSettingsChange(event);
   }
 
   render() {
@@ -118,7 +128,8 @@ class SearchResults extends Component {
 
     const searchResultItems = searchResults.map((searchResult) => 
       <div key={searchResult.id} className="search-result">
-        {searchResult.name}
+          <div className="search-result-name">{searchResult.name}</div>
+          <div className="search-result-plot-summary">{searchResult.plotSummary}</div>
 			</div>
     )
     return (
