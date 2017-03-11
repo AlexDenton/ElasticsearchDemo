@@ -31,6 +31,15 @@ namespace MovieSearchApi
 
             services.Configure<AppSettings>(Configuration);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
             services.AddMvc();
 
             services.AddSingleton<ISearchManager, SearchManager>();
@@ -55,6 +64,8 @@ namespace MovieSearchApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("CorsPolicy");
 
             //app.UseStaticFiles();
             app.UseMvc();
