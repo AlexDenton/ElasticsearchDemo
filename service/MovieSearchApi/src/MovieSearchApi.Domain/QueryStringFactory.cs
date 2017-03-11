@@ -28,15 +28,39 @@ namespace MovieSearchApi.Domain
             {
                 foreach (var indexAnalyzer in _IndexAnalyzers)
                 {
-                    queryContainerDescriptor
-                        .Match(mqd => mqd
-                            .Field(indexField)
-                            .Analyzer(indexAnalyzer.ToSearchAnalyzer())
-                            .Query(searchRequest.Query));
+                    if (ShouldSearchIndex(indexAnalyzer, searchRequest.SearchSettings))
+                    {
+                        queryContainerDescriptor
+                            .Match(mqd => mqd
+                                .Field(indexField)
+                                .Analyzer(indexAnalyzer.ToSearchAnalyzer())
+                                .Query(searchRequest.Query));
+                    }
                 }
             }
 
             return queryContainerDescriptor;
+        }
+
+        private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)
+        {
+            // Todo: refactor this
+            if (indexAnalyzer == "standard" && searchSettings.StandardAnalyzer)
+            {
+                return true;
+            }
+
+            if (indexAnalyzer == "snowball" && searchSettings.SnowballAnalyzer)
+            {
+                return true;
+            }
+
+            if (indexAnalyzer == "edgeNGram" && searchSettings.EdgeNGramAnalyzer)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static string ToSearchAnalyzer(this string indexAnalyzer)
