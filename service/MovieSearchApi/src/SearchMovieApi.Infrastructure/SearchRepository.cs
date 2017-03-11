@@ -20,11 +20,7 @@ namespace SearchMovieApi.Infrastructure
         {
             var searchDescriptor = new SearchDescriptor<Movie>()
                 .SearchType(SearchType.QueryThenFetch)
-                .Query(q => q.MatchPhrase(mpqd => mpqd
-                    .Field(mqd => mqd.Name.Suffix("standard"))
-                    .Slop(50)
-                    .Query(searchRequest.Query)
-                ));
+                .Query(q => QueryStringFactory.CreateQueryString(searchRequest));
 
             var elasticsearchResponse = await _ElasticClient.SearchAsync<Movie>(searchDescriptor);
             var searchResponse = new SearchResponse

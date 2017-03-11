@@ -15,4 +15,10 @@
     <ProjectReference Include="..\MovieSearchApi.Application\MovieSearchApi.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Nest">
+      <HintPath>C:\Users\alex.denton.POWERDMS\.nuget\packages\nest\5.0.1\lib\netstandard1.3\Nest.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

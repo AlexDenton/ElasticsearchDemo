@@ -19,7 +19,13 @@ namespace MovieSearchApi.Domain
             var searchResponse = await _SearchRepository.GetSearchResults(
                 new SearchRequest
                 {
-                    Query = searchRequestDto.Query
+                    Query = searchRequestDto.Query,
+                    SearchSettings = new SearchSettings
+                    {
+                        StandardAnalyzer = searchRequestDto.SearchSettings.StandardAnalyzer,
+                        SnowballAnalyzer = searchRequestDto.SearchSettings.SnowballAnalyzer,
+                        EdgeNGramAnalyzer = searchRequestDto.SearchSettings.EdgeNGramAnalyzer,
+                    }
                 });
 
             return new SearchResponseDto

@@ -75,7 +75,6 @@ class SearchInput extends Component {
         return response.json();
       })
       .then(function(jsonResponse) {
-        console.log(jsonResponse);
         this.props.onSearchResultsChange(jsonResponse.results);
       }.bind(this));
   }
