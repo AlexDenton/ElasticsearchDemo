@@ -40,22 +40,25 @@ class SearchInput extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      searchSettings: {
-        standardAnalyzer: true,
-        snowballAnalayzer: false,
-        edgeNGramAnalyzer: false
+      searchRequest: {
+        query: "",
+        searchSettings: {
+          standardAnalyzer: true,
+          snowballAnalyzer: false,
+          edgeNGramAnalyzer: false
+        }
       }
     }
   }
 
   handleChange(event) {
+
+    this.state.searchRequest.query = event.target.value;
+
     var requestHeaders = new Headers();
     requestHeaders.append("Content-Type", "application/json");
     
-    var requestBody = 
-      JSON.stringify({
-        "query": event.target.value
-      });
+    var requestBody = JSON.stringify(this.state.searchRequest);
 
     var requestInit = { 
       method: 'POST',
@@ -81,7 +84,7 @@ class SearchInput extends Component {
     return (
       <div className="search-container">
         <input className="search-input" placeholder="Search" type="text" onChange={this.handleChange} />
-        <SearchSettings searchSettings={this.state.searchSettings} />
+        <SearchSettings searchSettings={this.state.searchRequest.searchSettings} />
       </div>
     );
   }
@@ -102,7 +105,7 @@ class SearchSettings extends Component {
     return (
       <div className="search-settings-container">
         <label><input type="checkbox" name="standardAnalyzer" checked={this.props.searchSettings.standardAnalyzer} onChange={this.handleInputChange} /> Standard</label>
-        <label><input type="checkbox" name="snowballAnalyzer" checked={this.props.searchSettings.snowballAnalayzer} onChange={this.handleInputChange} /> Snowball</label>
+        <label><input type="checkbox" name="snowballAnalyzer" checked={this.props.searchSettings.snowballAnalyzer} onChange={this.handleInputChange} /> Snowball</label>
         <label><input type="checkbox" name="edgeNGramAnalyzer" checked={this.props.searchSettings.edgeNGramAnalyzer} onChange={this.handleInputChange} /> Edge NGram</label>
       </div>
     )
