@@ -1,4 +1,4 @@
-﻿namespace MovieDataLoader.Elasticsearch
+﻿namespace MovieSearchApi.Common
 {
     public class ElasticsearchMovieFieldSuffixHelper
     {

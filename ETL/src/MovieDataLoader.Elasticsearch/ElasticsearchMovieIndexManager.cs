@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Nest;
 using MovieDataLoader.Model;
+using MovieSearchApi.Common;
 
 namespace MovieDataLoader.Elasticsearch
 {

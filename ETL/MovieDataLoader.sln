@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDataLoader.Elasticsear
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDataLoader.Model", "src\MovieDataLoader.Model\MovieDataLoader.Model.csproj", "{8725A52C-4673-4EBC-B127-025C4D8E4F1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearchApi.Common", "..\shared\MovieSearchApi.Common\MovieSearchApi.Common.csproj", "{1840B628-C852-4B0D-B7AC-A2205F1BD99F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{8725A52C-4673-4EBC-B127-025C4D8E4F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8725A52C-4673-4EBC-B127-025C4D8E4F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8725A52C-4673-4EBC-B127-025C4D8E4F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1840B628-C852-4B0D-B7AC-A2205F1BD99F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1840B628-C852-4B0D-B7AC-A2205F1BD99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1840B628-C852-4B0D-B7AC-A2205F1BD99F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1840B628-C852-4B0D-B7AC-A2205F1BD99F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,6 @@ Global
 		{F1F279AE-255B-4AA3-B579-73A2A4FE3D8E} = {F145155A-A630-4BB3-8BB6-64960EB36CF5}
 		{E423235C-B9D0-4D0B-8627-ABE1B0E5AB38} = {F145155A-A630-4BB3-8BB6-64960EB36CF5}
 		{8725A52C-4673-4EBC-B127-025C4D8E4F1F} = {F145155A-A630-4BB3-8BB6-64960EB36CF5}
+		{1840B628-C852-4B0D-B7AC-A2205F1BD99F} = {F145155A-A630-4BB3-8BB6-64960EB36CF5}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MovieSearchApi.Common;
 using Nest;
 
 namespace MovieSearchApi.Domain
@@ -9,9 +10,9 @@ namespace MovieSearchApi.Domain
     {
         private static IEnumerable<string> _IndexAnalyzers => new List<string>
         {
-            "standard",
-            "snowball",
-            //"edgeNGram"
+            ElasticsearchMovieAnalyzerHelper.Standard,
+            ElasticsearchMovieAnalyzerHelper.Snowball,
+            ElasticsearchMovieAnalyzerHelper.EdgeNGram,
         };
 
         private static IEnumerable<Expression<Func<Movie, object>>> _IndexFields => new List<Expression<Func<Movie, object>>>
@@ -45,17 +46,17 @@ namespace MovieSearchApi.Domain
         private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)
         {
             // Todo: refactor this
-            if (indexAnalyzer == "standard" && searchSettings.StandardAnalyzer)
+            if (indexAnalyzer == ElasticsearchMovieAnalyzerHelper.Standard && searchSettings.StandardAnalyzer)
             {
                 return true;
             }
 
-            if (indexAnalyzer == "snowball" && searchSettings.SnowballAnalyzer)
+            if (indexAnalyzer == ElasticsearchMovieAnalyzerHelper.Snowball && searchSettings.SnowballAnalyzer)
             {
                 return true;
             }
 
-            if (indexAnalyzer == "edgeNGram" && searchSettings.EdgeNGramAnalyzer)
+            if (indexAnalyzer == ElasticsearchMovieAnalyzerHelper.EdgeNGram && searchSettings.EdgeNGramAnalyzer)
             {
                 return true;
             }
@@ -65,9 +66,9 @@ namespace MovieSearchApi.Domain
 
         private static string ToSearchAnalyzer(this string indexAnalyzer)
         {
-            if (indexAnalyzer == "edgeNGram")
+            if (indexAnalyzer == ElasticsearchMovieAnalyzerHelper.EdgeNGram)
             {
-                return "standard";
+                return ElasticsearchMovieAnalyzerHelper.Standard;
             }
 
             return indexAnalyzer;
