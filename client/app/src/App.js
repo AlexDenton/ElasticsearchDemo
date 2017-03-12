@@ -40,7 +40,7 @@ class SearchInput extends Component {
     super(props);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchSettingsChange = this.handleSearchSettingsChange.bind(this);
-    
+
     this.state = {
       searchRequest: {
         query: "",
@@ -53,10 +53,7 @@ class SearchInput extends Component {
     }
   }
 
-  handleSearchInputChange(event) {
-
-    this.state.searchRequest.query = event.target.value;
-
+  getSearchResults() {
     var requestHeaders = new Headers();
     requestHeaders.append("Content-Type", "application/json");
     
@@ -81,12 +78,26 @@ class SearchInput extends Component {
       }.bind(this));
   }
 
+  handleSearchInputChange(event) {
+    var newSearchRequest = this.state.searchRequest;
+    newSearchRequest.query = event.target.value;
+
+    this.setState({
+      searchRequest: newSearchRequest
+    });
+
+    this.getSearchResults();
+  }
+
   handleSearchSettingsChange(event) {
     var newSearchRequest = this.state.searchRequest;
     newSearchRequest.searchSettings[event.target.name] = event.target.checked;
+    
     this.setState({
       searchRequest: newSearchRequest
     })
+
+    this.getSearchResults();
   }
 
   render () {
