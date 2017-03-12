@@ -5,9 +5,9 @@ namespace MovieSearchApi.Domain
 {
     public static class QueryStringFactory
     {
-        public static QueryContainerDescriptor<Movie> CreateQueryString(SearchRequest searchRequest)
+        public static QueryContainer CreateQueryString(SearchRequest searchRequest)
         {
-            var queryContainerDescriptor = new QueryContainerDescriptor<Movie>();
+            var queryContainer = new QueryContainer();
 
             foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
             {
@@ -15,16 +15,17 @@ namespace MovieSearchApi.Domain
                 {
                     if (ShouldSearchIndex(indexAnalyzer, searchRequest.SearchSettings))
                     {
-                        queryContainerDescriptor
-                            .Match(mqd => mqd
-                                .Field(indexField)
-                                .Analyzer(indexAnalyzer.ToSearchAnalyzer())
-                                .Query(searchRequest.Query));
+                        queryContainer |=
+                            new QueryContainerDescriptor<Movie>()
+                                .Match(mqd => mqd
+                                    .Field(indexField.AppendSuffix(indexAnalyzer))
+                                    .Analyzer(indexAnalyzer.ToSearchAnalyzer())
+                                    .Query(searchRequest.Query));
                     }
                 }
             }
 
-            return queryContainerDescriptor;
+            return queryContainer;
         }
 
         private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)

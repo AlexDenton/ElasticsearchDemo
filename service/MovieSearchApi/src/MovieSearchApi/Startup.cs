@@ -46,7 +46,7 @@ namespace MovieSearchApi
             services.AddSingleton<ISearchRepository, SearchRepository>();
             services.AddSingleton(isp =>
             {
-                var uri = new Uri("http://localhost:9201");
+                var uri = new Uri("http://localhost.:9201");
                 var connectionPool = new SingleNodeConnectionPool(uri);
                 var connectionSettings = new ConnectionSettings(connectionPool);
                 connectionSettings.DefaultIndex("movies");
