@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using MovieSearchApi.Common;
+﻿using MovieSearchApi.Common;
 using Nest;
 
 namespace MovieSearchApi.Domain

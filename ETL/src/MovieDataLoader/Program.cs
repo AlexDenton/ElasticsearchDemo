@@ -24,7 +24,7 @@ namespace MovieDataLoader
             var indexName = Configuration["ElasticsearchSettings:ElasticsearchIndexName"];
             var elasticsearchServiceUri = Configuration["ElasticsearchSettings:ElasticsearchServiceUri"];
             var elasticsearchMovieIndexManager = new ElasticsearchMovieIndexManager(elasticsearchServiceUri, indexName);
-            //elasticsearchMovieIndexManager.CreateMovieIndex(indexName);
+            elasticsearchMovieIndexManager.RebuildMovieIndex(indexName);
             await elasticsearchMovieIndexManager.LoadMovieData(movieData.Values);
         }
     }

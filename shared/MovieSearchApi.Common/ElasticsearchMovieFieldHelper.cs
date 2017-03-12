@@ -12,9 +12,5 @@ namespace MovieSearchApi.Common
                 movie => movie.Name,
                 movie => movie.PlotSummary
             };
-
-        public const string Standard = "standard";
-
-        public const string Snowball = "snowball";
     }
 }

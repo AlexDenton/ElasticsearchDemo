@@ -30,29 +30,70 @@ namespace MovieDataLoader.Elasticsearch
             }
         }
 
+        public void RebuildMovieIndex(string indexName)
+        {
+            _ElasticClient.DeleteIndex(indexName);
+
+            CreateMovieIndex(indexName);
+        }
+
+        public IndexSettings BuildElasticsearchMovieIndexSettings()
+        {
+            var indexSettings = new IndexSettings();
+
+            var edgeNGramTokenFilter = new EdgeNGramTokenFilter()
+            {
+                MinGram = 1,
+                MaxGram = 15
+            };
+
+            var edgeNGramAnalyzer = new CustomAnalyzer
+            {
+                Filter = new List<string>
+                {
+                    ElasticsearchTokenFilterHelper.Standard,
+                    ElasticsearchTokenFilterHelper.Lowercase,
+                    ElasticsearchTokenFilterHelper.Stop,
+                    ElasticsearchTokenFilterHelper.EdgeNGramTokenFilter
+                },
+                Tokenizer = TokenizerHelper.Standard
+            };
+
+            indexSettings.Analysis = new Analysis
+            {
+                TokenFilters = new TokenFilters { { ElasticsearchTokenFilterHelper.EdgeNGramTokenFilter, edgeNGramTokenFilter } },
+                Analyzers = new Analyzers { { ElasticsearchMovieAnalyzerHelper.EdgeNGram, edgeNGramAnalyzer } },
+            };
+
+            return indexSettings;
+        }
+
         public void CreateMovieIndex(string indexName)
         {
-            _ElasticClient.CreateIndex(indexName);
+            var createIndexRequest = new CreateIndexRequest(
+                indexName,
+                new IndexState
+                {
+                    Settings = BuildElasticsearchMovieIndexSettings()
+                });
 
-            _ElasticClient.Map<Movie>(pmd => pmd
-                .Properties(pd => pd
-                    .Text(tpd => tpd
-                        .Name(movie => movie.Name)
-                        .Fields(fs => fs
-                            .Text(t => t.Name(movie => movie.Name.Suffix(ElasticsearchMovieFieldHelper.Standard))
-                                .Analyzer(ElasticsearchMovieAnalyzerHelper.Standard))
-                            .Text(t => t.Name(movie => movie.Name.Suffix(ElasticsearchMovieFieldHelper.Snowball))
-                                .Analyzer(ElasticsearchMovieAnalyzerHelper.Snowball))
-                    ))
-                    .Text(tpd => tpd
-                        .Name(movie => movie.PlotSummary)
-                        .Fields(fs => fs
-                            .Text(t => t.Name(movie => movie.PlotSummary.Suffix(ElasticsearchMovieFieldHelper.Standard))
-                                .Analyzer(ElasticsearchMovieAnalyzerHelper.Standard))
-                            .Text(t => t.Name(movie => movie.PlotSummary.Suffix(ElasticsearchMovieFieldHelper.Snowball))
-                                .Analyzer(ElasticsearchMovieAnalyzerHelper.Snowball))
-                    ))
-                ));
+            _ElasticClient.CreateIndex(createIndexRequest);
+
+            foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
+            {
+                foreach (var indexAnalyzer in ElasticsearchMovieAnalyzerHelper.AllIndexAnalyzers)
+                {
+                    _ElasticClient.Map<Movie>(pmd => pmd
+                        .Properties(pd => pd
+                            .Text(tpd => tpd
+                                .Name(indexField)
+                                .Fields(fs => fs
+                                    .Text(t => t
+                                        .Name(indexField.AppendSuffix(indexAnalyzer))
+                                        .Analyzer(indexAnalyzer))
+                    ))));
+                }
+            }
         }
     }
 }
