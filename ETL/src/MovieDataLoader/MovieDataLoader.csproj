@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\shared\MovieSearchApi.Common\MovieSearchApi.Common.csproj" />
     <ProjectReference Include="..\MovieDataLoader.Elasticsearch\MovieDataLoader.Elasticsearch.csproj" />
-    <ProjectReference Include="..\MovieDataLoader.Model\MovieDataLoader.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>

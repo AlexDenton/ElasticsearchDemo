@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Nest;
-using MovieDataLoader.Model;
 using MovieSearchApi.Common;
 
 namespace MovieDataLoader.Elasticsearch
@@ -40,17 +39,17 @@ namespace MovieDataLoader.Elasticsearch
                     .Text(tpd => tpd
                         .Name(movie => movie.Name)
                         .Fields(fs => fs
-                            .Text(t => t.Name(movie => movie.Name.Suffix(ElasticsearchMovieFieldSuffixHelper.Standard))
+                            .Text(t => t.Name(movie => movie.Name.Suffix(ElasticsearchMovieFieldHelper.Standard))
                                 .Analyzer(ElasticsearchMovieAnalyzerHelper.Standard))
-                            .Text(t => t.Name(movie => movie.Name.Suffix(ElasticsearchMovieFieldSuffixHelper.Snowball))
+                            .Text(t => t.Name(movie => movie.Name.Suffix(ElasticsearchMovieFieldHelper.Snowball))
                                 .Analyzer(ElasticsearchMovieAnalyzerHelper.Snowball))
                     ))
                     .Text(tpd => tpd
                         .Name(movie => movie.PlotSummary)
                         .Fields(fs => fs
-                            .Text(t => t.Name(movie => movie.PlotSummary.Suffix(ElasticsearchMovieFieldSuffixHelper.Standard))
+                            .Text(t => t.Name(movie => movie.PlotSummary.Suffix(ElasticsearchMovieFieldHelper.Standard))
                                 .Analyzer(ElasticsearchMovieAnalyzerHelper.Standard))
-                            .Text(t => t.Name(movie => movie.PlotSummary.Suffix(ElasticsearchMovieFieldSuffixHelper.Snowball))
+                            .Text(t => t.Name(movie => movie.PlotSummary.Suffix(ElasticsearchMovieFieldHelper.Snowball))
                                 .Analyzer(ElasticsearchMovieAnalyzerHelper.Snowball))
                     ))
                 ));

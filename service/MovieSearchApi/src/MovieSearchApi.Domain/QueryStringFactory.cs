@@ -8,26 +8,13 @@ namespace MovieSearchApi.Domain
 {
     public static class QueryStringFactory
     {
-        private static IEnumerable<string> _IndexAnalyzers => new List<string>
-        {
-            ElasticsearchMovieAnalyzerHelper.Standard,
-            ElasticsearchMovieAnalyzerHelper.Snowball,
-            ElasticsearchMovieAnalyzerHelper.EdgeNGram,
-        };
-
-        private static IEnumerable<Expression<Func<Movie, object>>> _IndexFields => new List<Expression<Func<Movie, object>>>
-        {
-            movie => movie.Name,
-            movie => movie.PlotSummary
-        };
-
         public static QueryContainerDescriptor<Movie> CreateQueryString(SearchRequest searchRequest)
         {
             var queryContainerDescriptor = new QueryContainerDescriptor<Movie>();
 
-            foreach (var indexField in _IndexFields)
+            foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
             {
-                foreach (var indexAnalyzer in _IndexAnalyzers)
+                foreach (var indexAnalyzer in ElasticsearchMovieAnalyzerHelper.AllIndexAnalyzers)
                 {
                     if (ShouldSearchIndex(indexAnalyzer, searchRequest.SearchSettings))
                     {
@@ -62,16 +49,6 @@ namespace MovieSearchApi.Domain
             }
 
             return false;
-        }
-
-        private static string ToSearchAnalyzer(this string indexAnalyzer)
-        {
-            if (indexAnalyzer == ElasticsearchMovieAnalyzerHelper.EdgeNGram)
-            {
-                return ElasticsearchMovieAnalyzerHelper.Standard;
-            }
-
-            return indexAnalyzer;
         }
     }
 }

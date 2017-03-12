@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Elasticsearch.Net;
+using MovieSearchApi.Common;
 using MovieSearchApi.Domain;
 using Nest;
 using SearchRequest = MovieSearchApi.Domain.SearchRequest;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MovieSearchApi.Common;
 
 namespace MovieSearchApi.Domain
 {

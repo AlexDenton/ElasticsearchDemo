@@ -1,6 +1,6 @@
-﻿using MovieDataLoader.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using MovieSearchApi.Common;
 
 namespace MovieDataLoader
 {

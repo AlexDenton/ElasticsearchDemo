@@ -1,4 +1,4 @@
-﻿namespace MovieDataLoader.Model
+﻿namespace MovieSearchApi.Common
 {
     public class Movie
     {
