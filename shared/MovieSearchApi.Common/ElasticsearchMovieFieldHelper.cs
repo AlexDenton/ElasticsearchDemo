@@ -6,11 +6,15 @@ namespace MovieSearchApi.Common
 {
     public class ElasticsearchMovieFieldHelper
     {
-        public static IEnumerable<Expression<Func<Movie, object>>> AllIndexFields =>
-            new List<Expression<Func<Movie, object>>>
+        public const string Name = "name";
+
+        public const string PlotSummary = "plot-summary";
+
+        public static IDictionary<string, Expression<Func<Movie, object>>> AllIndexFields =>
+            new Dictionary<string, Expression<Func<Movie, object>>>
             {
-                movie => movie.Name,
-                movie => movie.PlotSummary
+                { Name, movie => movie.Name },
+                { PlotSummary, movie => movie.PlotSummary },
             };
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using MovieSearchApi.Common;
 using Nest;
 
@@ -20,9 +22,9 @@ namespace MovieSearchApi.Domain
                         queryContainer |=
                             new QueryContainerDescriptor<Movie>()
                                 .MatchPhrase(mqd => mqd
-                                    .Field(indexField.AppendSuffix(indexAnalyzer))
+                                    .Field(indexField.Value.AppendSuffix(indexAnalyzer))
                                     .Analyzer(indexAnalyzer.ToSearchAnalyzer())
-                                    .Boost(GetAnalyzerBoost(indexAnalyzer))
+                                    .Boost(GetAnalyzerBoost(indexAnalyzer) * GetFieldBoost(indexField.Key))
                                     .Slop(50)
                                     .Query(searchRequest.Query));
                     }
@@ -42,7 +44,7 @@ namespace MovieSearchApi.Domain
                         {
                             foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
                             {
-                                fd.Field(indexField.AppendSuffix(indexAnalyzer));
+                                fd.Field(indexField.Value.AppendSuffix(indexAnalyzer));
                             }
 
                             return fd;
@@ -50,6 +52,19 @@ namespace MovieSearchApi.Domain
             }
 
             return queryContainer;
+        }
+
+        private static double GetFieldBoost(string field)
+        {
+            switch (field)
+            {
+                case ElasticsearchMovieFieldHelper.Name:
+                    return 1;
+                case ElasticsearchMovieFieldHelper.PlotSummary:
+                    return 0.5;
+                default:
+                    return 1;
+            }
         }
 
         private static double GetAnalyzerBoost(string analyzer)
