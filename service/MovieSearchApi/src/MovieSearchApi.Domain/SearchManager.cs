@@ -25,6 +25,7 @@ namespace MovieSearchApi.Domain
                         StandardAnalyzer = searchRequestDto.SearchSettings.StandardAnalyzer,
                         SnowballAnalyzer = searchRequestDto.SearchSettings.SnowballAnalyzer,
                         EdgeNGramAnalyzer = searchRequestDto.SearchSettings.EdgeNGramAnalyzer,
+                        FieldBoosting = searchRequestDto.SearchSettings.FieldBoosting
                     }
                 });
 

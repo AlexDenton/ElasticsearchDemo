@@ -8,5 +8,6 @@
 
         public bool EdgeNGramAnalyzer { get; set; }
 
+        public bool FieldBoosting { get; set; }
     }
 }

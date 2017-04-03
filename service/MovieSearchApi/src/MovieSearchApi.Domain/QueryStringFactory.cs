@@ -24,7 +24,7 @@ namespace MovieSearchApi.Domain
                                 .MatchPhrase(mqd => mqd
                                     .Field(indexField.Value.AppendSuffix(indexAnalyzer))
                                     .Analyzer(indexAnalyzer.ToSearchAnalyzer())
-                                    .Boost(GetAnalyzerBoost(indexAnalyzer) * GetFieldBoost(indexField.Key))
+                                    .Boost(GetBoost(indexAnalyzer, indexField.Key, searchRequest.SearchSettings))
                                     .Slop(50)
                                     .Query(searchRequest.Query));
                     }
@@ -52,6 +52,18 @@ namespace MovieSearchApi.Domain
             }
 
             return queryContainer;
+        }
+
+        private static double GetBoost(string analyzer, string field, SearchSettings searchSettings)
+        {
+            var boost = GetAnalyzerBoost(analyzer);
+
+            if (searchSettings.FieldBoosting)
+            {
+                boost *= GetFieldBoost(field);
+            }
+
+            return boost;
         }
 
         private static double GetFieldBoost(string field)
