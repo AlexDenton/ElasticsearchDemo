@@ -47,7 +47,8 @@ class SearchInput extends Component {
         searchSettings: {
           standardAnalyzer: true,
           snowballAnalyzer: false,
-          edgeNGramAnalyzer: false
+          edgeNGramAnalyzer: false,
+          fieldBoosting: false
         }
       }
     }
@@ -127,6 +128,7 @@ class SearchSettings extends Component {
         <label><input type="checkbox" name="standardAnalyzer" checked={this.props.searchSettings.standardAnalyzer} onChange={this.handleInputChange} /> Standard</label>
         <label><input type="checkbox" name="snowballAnalyzer" checked={this.props.searchSettings.snowballAnalyzer} onChange={this.handleInputChange} /> Snowball</label>
         <label><input type="checkbox" name="edgeNGramAnalyzer" checked={this.props.searchSettings.edgeNGramAnalyzer} onChange={this.handleInputChange} /> Edge NGram</label>
+        <label><input type="checkbox" name="fieldBoosting" checked={this.props.searchSettings.fieldBoosting} onChange={this.handleInputChange} /> Field Boosting</label>
       </div>
     )
   }
