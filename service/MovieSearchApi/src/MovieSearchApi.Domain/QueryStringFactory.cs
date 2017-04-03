@@ -1,4 +1,6 @@
-﻿using MovieSearchApi.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MovieSearchApi.Common;
 using Nest;
 
 namespace MovieSearchApi.Domain
@@ -17,15 +19,50 @@ namespace MovieSearchApi.Domain
                     {
                         queryContainer |=
                             new QueryContainerDescriptor<Movie>()
-                                .Match(mqd => mqd
+                                .MatchPhrase(mqd => mqd
                                     .Field(indexField.AppendSuffix(indexAnalyzer))
                                     .Analyzer(indexAnalyzer.ToSearchAnalyzer())
+                                    .Boost(GetAnalyzerBoost(indexAnalyzer))
+                                    .Slop(50)
                                     .Query(searchRequest.Query));
                     }
                 }
             }
 
+            foreach (var indexAnalyzer in ElasticsearchMovieAnalyzerHelper.AllIndexAnalyzers)
+            {
+                queryContainer |= new QueryContainerDescriptor<Movie>()
+                    .MultiMatch(mmqd => mmqd
+                        .Analyzer(indexAnalyzer)
+                        .Type(TextQueryType.CrossFields)
+                        .Boost(0.1)
+                        .Query(searchRequest.Query)
+                        .Operator(Operator.And)
+                        .Fields(fd =>
+                        {
+                            foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
+                            {
+                                fd.Field(indexField.AppendSuffix(indexAnalyzer));
+                            }
+
+                            return fd;
+                        }));
+            }
+
             return queryContainer;
+        }
+
+        private static double GetAnalyzerBoost(string analyzer)
+        {
+            switch (analyzer)
+            {
+                case ElasticsearchMovieAnalyzerHelper.Standard:
+                    return 1.0;
+                case ElasticsearchMovieAnalyzerHelper.Snowball:
+                    return 0.5;
+                default:
+                    return 1;
+            }
         }
 
         private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)
