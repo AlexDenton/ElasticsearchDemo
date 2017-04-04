@@ -22,34 +22,37 @@ namespace MovieSearchApi.Domain
 
                         if (searchRequest.SearchSettings.PhraseMatching)
                         {
-                            qcd.MatchPhrase(mqd => mqd.BuildMatchQueryDescriptor(searchRequest, indexAnalyzer, indexField));
+                            queryContainer |= qcd.MatchPhrase(mqd => mqd.BuildMatchQueryDescriptor(searchRequest, indexAnalyzer, indexField));
                         }
                         else
                         {
-                            qcd.Match(mqd => mqd.BuildMatchQueryDescriptor(searchRequest, indexAnalyzer, indexField));
+                            queryContainer |= qcd.Match(mqd => mqd.BuildMatchQueryDescriptor(searchRequest, indexAnalyzer, indexField));
                         }
                     }
                 }
             }
 
-            foreach (var indexAnalyzer in ElasticsearchMovieAnalyzerHelper.AllIndexAnalyzers)
+            if (false)
             {
-                queryContainer |= new QueryContainerDescriptor<Movie>()
-                    .MultiMatch(mmqd => mmqd
-                        .Analyzer(indexAnalyzer)
-                        .Type(TextQueryType.CrossFields)
-                        .Boost(0.1)
-                        .Query(searchRequest.Query)
-                        .Operator(Operator.And)
-                        .Fields(fd =>
-                        {
-                            foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
+                foreach (var indexAnalyzer in ElasticsearchMovieAnalyzerHelper.AllIndexAnalyzers)
+                {
+                    queryContainer |= new QueryContainerDescriptor<Movie>()
+                        .MultiMatch(mmqd => mmqd
+                            .Analyzer(indexAnalyzer)
+                            .Type(TextQueryType.CrossFields)
+                            .Boost(0.1)
+                            .Query(searchRequest.Query)
+                            .Operator(Operator.And)
+                            .Fields(fd =>
                             {
-                                fd.Field(indexField.Value.AppendSuffix(indexAnalyzer));
-                            }
+                                foreach (var indexField in ElasticsearchMovieFieldHelper.AllIndexFields)
+                                {
+                                    fd.Field(indexField.Value.AppendSuffix(indexAnalyzer));
+                                }
 
-                            return fd;
-                        }));
+                                return fd;
+                            }));
+                }
             }
 
             return queryContainer;
