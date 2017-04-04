@@ -1,4 +1,7 @@
-﻿using MovieSearchApi.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using MovieSearchApi.Common;
 using Nest;
 
 namespace MovieSearchApi.Domain
@@ -15,14 +18,16 @@ namespace MovieSearchApi.Domain
                 {
                     if (ShouldSearchIndex(indexAnalyzer, searchRequest.SearchSettings))
                     {
-                        queryContainer |=
-                            new QueryContainerDescriptor<Movie>()
-                                .MatchPhrase(mqd => mqd
-                                    .Field(indexField.Value.AppendSuffix(indexAnalyzer))
-                                    .Analyzer(indexAnalyzer.ToSearchAnalyzer())
-                                    .Boost(GetBoost(indexAnalyzer, indexField.Key, searchRequest.SearchSettings))
-                                    .Slop(50)
-                                    .Query(searchRequest.Query));
+                        var qcd = new QueryContainerDescriptor<Movie>();
+
+                        if (searchRequest.SearchSettings.PhraseMatching)
+                        {
+                            qcd.MatchPhrase(mqd => mqd.BuildMatchQueryDescriptor(searchRequest, indexAnalyzer, indexField));
+                        }
+                        else
+                        {
+                            qcd.Match(mqd => mqd.BuildMatchQueryDescriptor(searchRequest, indexAnalyzer, indexField));
+                        }
                     }
                 }
             }
@@ -48,44 +53,6 @@ namespace MovieSearchApi.Domain
             }
 
             return queryContainer;
-        }
-
-        private static double GetBoost(string analyzer, string field, SearchSettings searchSettings)
-        {
-            var boost = GetAnalyzerBoost(analyzer);
-
-            if (searchSettings.FieldBoosting)
-            {
-                boost *= GetFieldBoost(field);
-            }
-
-            return boost;
-        }
-
-        private static double GetFieldBoost(string field)
-        {
-            switch (field)
-            {
-                case ElasticsearchMovieFieldHelper.Name:
-                    return 1;
-                case ElasticsearchMovieFieldHelper.PlotSummary:
-                    return 0.5;
-                default:
-                    return 1;
-            }
-        }
-
-        private static double GetAnalyzerBoost(string analyzer)
-        {
-            switch (analyzer)
-            {
-                case ElasticsearchMovieAnalyzerHelper.Standard:
-                    return 1.0;
-                case ElasticsearchMovieAnalyzerHelper.Snowball:
-                    return 0.5;
-                default:
-                    return 1;
-            }
         }
 
         private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)

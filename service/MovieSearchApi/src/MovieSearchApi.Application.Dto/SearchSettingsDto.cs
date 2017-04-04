@@ -8,6 +8,8 @@
 
         public bool EdgeNGramAnalyzer { get; set; }
 
+        public bool PhraseMatching { get; set; }
+
         public bool FieldBoosting { get; set; }
     }
 }
