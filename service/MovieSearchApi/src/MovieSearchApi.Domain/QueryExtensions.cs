@@ -24,11 +24,16 @@ namespace MovieSearchApi.Domain
 
         private static double GetBoost(string analyzer, string field, SearchSettings searchSettings)
         {
-            var boost = GetAnalyzerBoost(analyzer);
+            var boost = 1.0;
 
             if (searchSettings.FieldBoosting)
             {
                 boost *= GetFieldBoost(field);
+            }
+
+            if (searchSettings.AnalyzerBoosting)
+            {
+                boost *= GetAnalyzerBoost(analyzer);
             }
 
             return boost;
@@ -41,7 +46,7 @@ namespace MovieSearchApi.Domain
                 case ElasticsearchMovieFieldHelper.Name:
                     return 1;
                 case ElasticsearchMovieFieldHelper.PlotSummary:
-                    return 0.5;
+                    return 0.1;
                 default:
                     return 1;
             }
@@ -54,7 +59,7 @@ namespace MovieSearchApi.Domain
                 case ElasticsearchMovieAnalyzerHelper.Standard:
                     return 1.0;
                 case ElasticsearchMovieAnalyzerHelper.Snowball:
-                    return 0.5;
+                    return 0.1;
                 default:
                     return 1;
             }

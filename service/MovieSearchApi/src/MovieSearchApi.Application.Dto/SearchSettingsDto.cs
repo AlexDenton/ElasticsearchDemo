@@ -10,6 +10,8 @@
 
         public bool PhraseMatching { get; set; }
 
+        public bool AnalyzerBoosting { get; set; }
+
         public bool FieldBoosting { get; set; }
     }
 }
