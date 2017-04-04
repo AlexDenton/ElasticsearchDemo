@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MovieSearchApi.Application;
 using MovieSearchApi.Application.Dto;
@@ -43,9 +44,10 @@ namespace MovieSearchApi.Domain
             };
         }
 
-        public async Task<Movie> CreateMovie(Movie movieDto)
+        public async Task<Movie> CreateMovie(Movie movie)
         {
-            return await _SearchRepository.IndexMovie(movieDto);
+            movie.Id = Guid.NewGuid().ToString();
+            return await _SearchRepository.IndexMovie(movie);
         }
 
         public async Task DeleteMovie(string movieId)
