@@ -31,5 +31,14 @@ namespace SearchMovieApi.Infrastructure
 
             return searchResponse;
         }
+
+        public async Task<Movie> IndexMovie(Movie movie)
+        {
+            var indexResponse = await _ElasticClient.IndexAsync(movie);
+
+            movie.Id = indexResponse.Id;
+
+            return movie;
+        }
     }
 }

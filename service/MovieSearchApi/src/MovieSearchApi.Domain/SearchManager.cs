@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MovieSearchApi.Application;
 using MovieSearchApi.Application.Dto;
+using MovieSearchApi.Common;
 
 namespace MovieSearchApi.Domain
 {
@@ -39,6 +40,11 @@ namespace MovieSearchApi.Domain
                         PlotSummary = r.PlotSummary
                     })
             };
+        }
+
+        public async Task<Movie> CreateMovie(Movie movieDto)
+        {
+            return await _SearchRepository.IndexMovie(movieDto);
         }
     }
 }
