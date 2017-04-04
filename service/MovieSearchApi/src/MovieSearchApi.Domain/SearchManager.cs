@@ -47,5 +47,10 @@ namespace MovieSearchApi.Domain
         {
             return await _SearchRepository.IndexMovie(movieDto);
         }
+
+        public async Task DeleteMovie(string movieId)
+        {
+            await _SearchRepository.DeleteMovie(movieId);
+        }
     }
 }

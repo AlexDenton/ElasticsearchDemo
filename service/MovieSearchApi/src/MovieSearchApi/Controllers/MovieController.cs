@@ -6,7 +6,7 @@ using MovieSearchApi.Common;
 
 namespace MovieSearchApi.Controllers
 {
-    [Route("movies")]
+    [Route("movies/{movieId?}")]
     public class MovieController : Controller
     {
         private readonly ISearchManager _SearchManager;
@@ -17,9 +17,15 @@ namespace MovieSearchApi.Controllers
         }
 
         [HttpPost]
-        public async Task<Movie> PostSearchRequest([FromBody]Movie movieDto)
+        public async Task<Movie> PostMovie([FromBody]Movie movieDto)
         {
             return await _SearchManager.CreateMovie(movieDto);
+        }
+
+        [HttpDelete]
+        public async Task DeleteMovie(string movieId)
+        {
+            await _SearchManager.DeleteMovie(movieId);
         }
     }
 

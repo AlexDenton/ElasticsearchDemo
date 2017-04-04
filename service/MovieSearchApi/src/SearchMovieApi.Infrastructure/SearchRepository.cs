@@ -40,5 +40,12 @@ namespace SearchMovieApi.Infrastructure
 
             return movie;
         }
+
+        public async Task DeleteMovie(string movieId)
+        {
+            // Todo: make configurable
+            var dr = new DeleteRequest("movies", nameof(Movie).ToLowerInvariant(), movieId);
+            var deleteResponse = await _ElasticClient.DeleteAsync(dr);
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace MovieSearchApi.Application
         Task<SearchResponseDto> GetSearchResults(SearchRequestDto searchRequestDto);
 
         Task<Movie> CreateMovie(Movie movieDto);
+
+        Task DeleteMovie(string movieId);
     }
 }

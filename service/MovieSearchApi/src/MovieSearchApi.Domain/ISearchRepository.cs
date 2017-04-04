@@ -7,7 +7,8 @@ namespace MovieSearchApi.Domain
     {
         Task<SearchResponse> GetSearchResults(SearchRequest searchRequest);
 
-
         Task<Movie> IndexMovie(Movie movie);
+
+        Task DeleteMovie(string movieId);
     }
 }
