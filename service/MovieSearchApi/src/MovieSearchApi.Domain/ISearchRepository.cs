@@ -9,6 +9,8 @@ namespace MovieSearchApi.Domain
 
         Task<Movie> IndexMovie(Movie movie);
 
+        Task<Movie> UpdateMovie(Movie movie);
+
         Task DeleteMovie(string movieId);
     }
 }

@@ -22,6 +22,13 @@ namespace MovieSearchApi.Controllers
             return await _SearchManager.CreateMovie(movieDto);
         }
 
+        [HttpPatch]
+        public async Task<Movie> UpdateMovie(string movieId, [FromBody] Movie movieDto)
+        {
+            movieDto.Id = movieId;
+            return await _SearchManager.UpdateMovie(movieDto);
+        }
+
         [HttpDelete]
         public async Task DeleteMovie(string movieId)
         {
