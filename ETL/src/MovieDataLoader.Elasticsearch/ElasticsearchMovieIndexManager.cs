@@ -68,6 +68,20 @@ namespace MovieDataLoader.Elasticsearch
             return indexSettings;
         }
 
+        public void ModifyMovieIndex(string indexName)
+        {
+            _ElasticClient.Map<Movie>(pmd => pmd.AutoMap());
+        }
+
+        public void InitializePopularity(string indexName)
+        {
+            var updateByQueryRequest = new UpdateByQueryDescriptor<Movie>(indexName)
+                .MatchAll()
+                .Script("ctx._source.popularity = 1");
+
+            _ElasticClient.UpdateByQuery(updateByQueryRequest);
+        }
+
         public void CreateMovieIndex(string indexName)
         {
             var createIndexRequest = new CreateIndexRequest(
@@ -86,10 +100,10 @@ namespace MovieDataLoader.Elasticsearch
                     _ElasticClient.Map<Movie>(pmd => pmd
                         .Properties(pd => pd
                             .Text(tpd => tpd
-                                .Name(indexField)
+                                .Name(indexField.Value)
                                 .Fields(fs => fs
                                     .Text(t => t
-                                        .Name(indexField.AppendSuffix(indexAnalyzer))
+                                        .Name(indexField.Value.AppendSuffix(indexAnalyzer))
                                         .Analyzer(indexAnalyzer))
                     ))));
                 }

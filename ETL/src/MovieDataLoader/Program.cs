@@ -20,12 +20,14 @@ namespace MovieDataLoader
 
         private static async Task MainAsync()
         {
-            var movieData = MovieDataReader.ReadMovieData();
+            //var movieData = MovieDataReader.ReadMovieData();
             var indexName = Configuration["ElasticsearchSettings:ElasticsearchIndexName"];
             var elasticsearchServiceUri = Configuration["ElasticsearchSettings:ElasticsearchServiceUri"];
             var elasticsearchMovieIndexManager = new ElasticsearchMovieIndexManager(elasticsearchServiceUri, indexName);
-            elasticsearchMovieIndexManager.RebuildMovieIndex(indexName);
-            await elasticsearchMovieIndexManager.LoadMovieData(movieData.Values);
+            elasticsearchMovieIndexManager.InitializePopularity(indexName);
+            //elasticsearchMovieIndexManager.ModifyMovieIndex(indexName);
+            //elasticsearchMovieIndexManager.RebuildMovieIndex(indexName);
+            //await elasticsearchMovieIndexManager.LoadMovieData(movieData.Values);
         }
     }
 }

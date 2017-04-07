@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using MovieSearchApi.Common;
+﻿using MovieSearchApi.Common;
 using Nest;
 
 namespace MovieSearchApi.Domain
@@ -55,7 +52,13 @@ namespace MovieSearchApi.Domain
                 }
             }
 
-            return queryContainer;
+            return new QueryContainerDescriptor<Movie>()
+                .FunctionScore(s => s
+                    .Query(_ => queryContainer)
+                    .Functions(sfqd => sfqd
+                        .FieldValueFactor(fvffd => fvffd
+                            .Field(m => m.Popularity)
+                            .Modifier(FieldValueFactorModifier.Log1P))));
         }
 
         private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)
