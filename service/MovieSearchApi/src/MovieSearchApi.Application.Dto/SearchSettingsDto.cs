@@ -13,5 +13,7 @@
         public bool AnalyzerBoosting { get; set; }
 
         public bool FieldBoosting { get; set; }
+
+        public bool PopularityBoosting { get; set; }
     }
 }

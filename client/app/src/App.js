@@ -50,7 +50,8 @@ class SearchInput extends Component {
           edgeNGramAnalyzer: false,
           phraseMatching: false,
           analyzerBoosting: false,
-          fieldBoosting: false
+          fieldBoosting: false,
+          popularityBoosting: false
         }
       }
     }
@@ -133,6 +134,7 @@ class SearchSettings extends Component {
         <label><input type="checkbox" name="phraseMatching" checked={this.props.searchSettings.phraseMatching} onChange={this.handleInputChange} /> Phrase Matching</label>
         <label><input type="checkbox" name="analyzerBoosting" checked={this.props.searchSettings.analyzerBoosting} onChange={this.handleInputChange} /> Analyzer Boosting</label>
         <label><input type="checkbox" name="fieldBoosting" checked={this.props.searchSettings.fieldBoosting} onChange={this.handleInputChange} /> Field Boosting</label>
+        <label><input type="checkbox" name="popularityBoosting" checked={this.props.searchSettings.popularityBoosting} onChange={this.handleInputChange} /> Popularity Boosting</label>
       </div>
     )
   }

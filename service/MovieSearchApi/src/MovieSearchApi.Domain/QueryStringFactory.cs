@@ -52,13 +52,18 @@ namespace MovieSearchApi.Domain
                 }
             }
 
-            return new QueryContainerDescriptor<Movie>()
-                .FunctionScore(s => s
-                    .Query(_ => queryContainer)
-                    .Functions(sfqd => sfqd
-                        .FieldValueFactor(fvffd => fvffd
-                            .Field(m => m.Popularity)
-                            .Modifier(FieldValueFactorModifier.Log1P))));
+            if (searchRequest.SearchSettings.PopularityBoosting)
+            {
+                return new QueryContainerDescriptor<Movie>()
+                    .FunctionScore(s => s
+                        .Query(_ => queryContainer)
+                        .Functions(sfqd => sfqd
+                            .FieldValueFactor(fvffd => fvffd
+                                .Field(m => m.Popularity)
+                                .Modifier(FieldValueFactorModifier.Log1P))));
+            }
+
+            return queryContainer;
         }
 
         private static bool ShouldSearchIndex(string indexAnalyzer, SearchSettings searchSettings)
